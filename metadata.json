@@ -1,0 +1,6 @@
+{
+  "name": "Street Store | Autoridade no Streetwear",
+  "description": "E-commerce de streetwear de ponta com coleções exclusivas, peças oversized, tênis e estética urbana de alta definição.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
