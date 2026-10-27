@@ -7,7 +7,7 @@ export async function handler(event) {
 
   try {
     const STORE_ID = '6486155';
-    const ACCESS_TOKEN = process.env.NUVEMSHOP_ACCESS_TOKEN || '9986a45d4f290dc55545b7194ea814ddac148e95';
+    const ACCESS_TOKEN = process.env.NUVEMSHOP_ACCESS_TOKEN || '122ae6ba21fb01d2094aa9cacf6fa1854c890b74e4ee7e2e9f108c0354279f78';
 
     const response = await fetch(`https://api.nuvemshop.com.br/v1/${STORE_ID}/products?per_page=200`, {
       method: 'GET',

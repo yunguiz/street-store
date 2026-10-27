@@ -7,7 +7,7 @@ export async function handler(event) {
 
   try {
     const { orderId, amount, customer, items } = JSON.parse(event.body);
-    const MERCADOPAGO_ACCESS_TOKEN = process.env.VITE_MERCADOPAGO_ACCESS_TOKEN || 'APP_USR-1812187507012211-102712-308c387108d8d06e1d2de659247d0294-2461933848';
+    const MERCADOPAGO_ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN || 'APP_USR-1812187507012211-102712-308c387108d8d06e1d2de659247d0294-2461933848';
 
     const itemNames = items.map((i) => `${i.quantity}x ${i.product.name}`).join(', ');
 
