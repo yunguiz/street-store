@@ -1,68 +1,17 @@
 import { Product } from '../types';
 
-const STORE_ID = '6486155';
-const ACCESS_TOKEN = '9986a45d4f290dc55545b7194ea814ddac148e95';
-
-function mapCategoryName(rawCategory: string, name: string): any {
-  const catLower = (rawCategory || '').toLowerCase();
-  const nameLower = (name || '').toLowerCase();
-
-  // 1. CALÇADOS (Tênis, Chinelos e Meias)
-  if (
-    catLower.includes('tênis') || 
-    catLower.includes('tenis') || 
-    catLower.includes('calçados') || 
-    catLower.includes('chinelo') || 
-    catLower.includes('meias') ||
-    nameLower.includes('tenis') ||
-    nameLower.includes('tênis') ||
-    nameLower.includes('chinelo') ||
-    nameLower.includes('meia') ||
-    nameLower.includes('havaianas') ||
-    nameLower.includes('cadarço')
-  ) {
-    return 'CALÇADOS';
-  }
-
-  // 2. ACESSÓRIOS & BAGS (Bonés, Óculos, Bags, etc.)
-  if (
-    catLower.includes('acessórios') || 
-    catLower.includes('bonés') || 
-    catLower.includes('óculos') || 
-    catLower.includes('bags') ||
-    nameLower.includes('boné') ||
-    nameLower.includes('oakley') ||
-    nameLower.includes('radar ev') ||
-    nameLower.includes('bag')
-  ) {
-    return 'ACESSÓRIOS';
-  }
-
-  // 3. ROUPAS (Camisetas, Moletons, Shorts, Bermudas, Calças, Regatas, Polos)
-  return 'ROUPAS';
-}
-
-function mapGender(rawCategory: string): 'MASCULINO' | 'FEMININO' | 'UNISSEX' {
-  const catLower = (rawCategory || '').toLowerCase();
-  if (catLower.includes('feminino') && catLower.includes('masculino')) return 'UNISSEX';
-  if (catLower.includes('feminino')) return 'FEMININO';
-  if (catLower.includes('masculino')) return 'MASCULINO';
-  return 'UNISSEX';
-}
-
 export async function fetchNuvemshopProducts(): Promise<Product[]> {
   try {
-    const response = await fetch(`/nuvem-api/${STORE_ID}/products?per_page=200`, {
+    // Chamada segura para a Serverless Function da Netlify (sem expor o token no browser)
+    const response = await fetch('/.netlify/functions/nuvemshop', {
       method: 'GET',
       headers: {
-        'Authentication': `bearer ${ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'StreetStore (contato@streetstore.com.br)',
       },
     });
 
     if (!response.ok) {
-      console.warn('Erro na resposta da Nuvemshop:', response.status);
+      console.warn('Erro na resposta da Netlify Function da Nuvemshop:', response.status);
       return [];
     }
 
@@ -106,4 +55,39 @@ export async function fetchNuvemshopProducts(): Promise<Product[]> {
     console.error('Erro de conexão com a API da Nuvemshop:', error);
     return [];
   }
+}
+
+function mapCategoryName(rawCategory: string, name: string): any {
+  const catLower = (rawCategory || '').toLowerCase();
+  const nameLower = (name || '').toLowerCase();
+
+  if (
+    catLower.includes('tênis') || catLower.includes('tenis') || 
+    catLower.includes('calçados') || catLower.includes('chinelo') || 
+    catLower.includes('meias') || nameLower.includes('tenis') ||
+    nameLower.includes('tênis') || nameLower.includes('chinelo') ||
+    nameLower.includes('meia') || nameLower.includes('havaianas') ||
+    nameLower.includes('cadarço')
+  ) {
+    return 'CALÇADOS';
+  }
+
+  if (
+    catLower.includes('acessórios') || catLower.includes('bonés') || 
+    catLower.includes('óculos') || catLower.includes('bags') ||
+    nameLower.includes('boné') || nameLower.includes('oakley') ||
+    nameLower.includes('radar ev') || nameLower.includes('bag')
+  ) {
+    return 'ACESSÓRIOS';
+  }
+
+  return 'ROUPAS';
+}
+
+function mapGender(rawCategory: string): 'MASCULINO' | 'FEMININO' | 'UNISSEX' {
+  const catLower = (rawCategory || '').toLowerCase();
+  if (catLower.includes('feminino') && catLower.includes('masculino')) return 'UNISSEX';
+  if (catLower.includes('feminino')) return 'FEMININO';
+  if (catLower.includes('masculino')) return 'MASCULINO';
+  return 'UNISSEX';
 }
