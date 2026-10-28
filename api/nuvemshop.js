@@ -11,6 +11,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'NUVEMSHOP_ACCESS_TOKEN não configurado no ambiente da Vercel.' });
     }
 
+    // Faz o pedido diretamente à API oficial da Nuvemshop
     const response = await fetch(`https://api.nuvemshop.com.br/v1/${STORE_ID}/products?per_page=200`, {
       method: 'GET',
       headers: {
